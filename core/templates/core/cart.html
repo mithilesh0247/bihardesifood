@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">🛒 Your Shopping Cart</h2>
+
+    {% if items %}
+    <table class="table table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">Item Total</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr id="row-{{ item.product.id }}">
+                <td><strong>{{ item.product.name }}</strong></td>
+                <td class="text-center" id="qty-{{ item.product.id }}">{{ item.quantity }}</td>
+                <td class="text-end">₹{{ item.product.price }}</td>
+                <td class="text-end" id="itemtotal-{{ item.product.id }}">₹{{ item.item_total }}</td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-success me-1 btn-increase" data-id="{{ item.product.id }}">+</button>
+                    <button class="btn btn-sm btn-warning me-1 btn-decrease" data-id="{{ item.product.id }}">−</button>
+                    <button class="btn btn-sm btn-danger btn-remove" data-id="{{ item.product.id }}">❌</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="table-light">
+                <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                <td class="text-end" colspan="2"><strong><span id="cart-total">₹{{ total }}</span></strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg">Proceed to Checkout</a>
+    </div>
+
+    {% else %}
+    <div class="alert alert-info text-center">
+        Your cart is empty. <a href="{% url 'product_list' %}">Start shopping now!</a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- ✅ jQuery for AJAX actions -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.btn-increase').click(function() {
+        let id = $(this).data('id');
+        $.get('/cart/ajax/increase/' + id + '/', function(data) {
+            if (data.success) {
+                $('#qty-' + id).text(data.quantity);
+                $('#itemtotal-' + id).text('₹' + data.item_total);
+                $('#cart-total').text('₹' + data.total);
+            }
+        });
+    });
+
+    $('.btn-decrease').click(function() {
+        let id = $(this).data('id');
+        $.get('/cart/ajax/decrease/' + id + '/', function(data) {
+            if (data.success) {
+                if (data.quantity > 0) {
+                    $('#qty-' + id).text(data.quantity);
+                    $('#itemtotal-' + id).text('₹' + data.item_total);
+                } else {
+                    $('#row-' + id).remove();
+                }
+                $('#cart-total').text('₹' + data.total);
+            }
+        });
+    });
+
+    $('.btn-remove').click(function() {
+        let id = $(this).data('id');
+        $.get('/cart/ajax/remove/' + id + '/', function(data) {
+            if (data.success) {
+                $('#row-' + id).remove();
+                $('#cart-total').text('₹' + data.total);
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

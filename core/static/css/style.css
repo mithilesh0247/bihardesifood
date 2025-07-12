@@ -1,0 +1,42 @@
+/* style.css */
+body {
+    background-color: #fff8f0;
+}
+
+.navbar-dark.bg-dark {
+    background-color: #8B0000 !important; /* deep red/maroon */
+}
+
+.btn-primary {
+    background-color: #FF9933;
+    border-color: #FF9933;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+h2 {
+    color: #8B0000;
+    font-family: 'Georgia', serif;
+}
+body {
+    font-family: 'Georgia', serif;
+}
+
+.text-maroon {
+    color: #800000 !important;
+}
+
+.btn-orange {
+    background-color: #FF9933;
+    color: white;
+    border: none;
+}
+
+.btn-orange:hover {
+    background-color: #e68a00;
+    color: white;
+}
+
+

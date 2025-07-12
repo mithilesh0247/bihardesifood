@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+
+# Ignore environment files
+.env
+
+# Ignore virtual environments (if used)
+venv/
+env/
+
+# Ignore OS-specific files
+.DS_Store
+.env
+__pycache__/
+*.pyc
+Thumbs.db
