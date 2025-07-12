@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-1+80g#$+pvxw5(6n#vht6j9m2b=t+ma3^%f&3(ic_xo=v27tpc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 import os
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.onrender.com']
+
 from dotenv import load_dotenv
 load_dotenv()
 
